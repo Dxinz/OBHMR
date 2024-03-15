@@ -1,5 +1,5 @@
 # DeepOBHMR
-OBHMR: Partial Generalized Point Set Registration with Overlap Bidirectional Hybrid Mixture Model
+OBHMR: Partial Generalized Point Set Registration with Overlap Bidirectional Hybrid Mixture Model.//
 The repository offers the official implementation of our paper in PyTorch.
 
  In this paper, we introduce a novel overlap-based bidirectional registration approach, i.e., Overlap Bidirectional
