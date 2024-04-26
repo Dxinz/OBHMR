@@ -1,0 +1,51 @@
+def hmm_params_ov(gamma, pts, pts_normal,on,om):
+    '''
+    Inputs:
+          gamma: B x N x J
+          pts: B x N x 3
+
+          pts_normal: B x N x 3
+
+    Outputs:
+          pi: B x J
+          mu: B x J x 3
+          sigma: B
+
+          mu_normal: B x J x 3
+          kappa: B
+    '''
+
+    B = gamma.shape[0]
+    N = gamma.shape[1]
+    J = gamma.shape[2]
+
+    pi = gamma.mean(dim=1)
+    Npi = pi * gamma.shape[1]
+
+    '''Positional Vectors Related'''
+    mu = gamma.transpose(1, 2) @ pts / Npi.unsqueeze(2)
+
+    # diff: B x N x J x 3
+    diff = pts.unsqueeze(2) - mu.unsqueeze(1)
+
+    # sigma: B x J x 3 x 3
+    eye = torch.eye(3).unsqueeze(0).unsqueeze(1).to(gamma.device)
+    sigma = ((((diff.unsqueeze(3) @ diff.unsqueeze(4)).squeeze() * gamma).sum(dim=1)) / Npi).unsqueeze(2).unsqueeze(3) * eye
+
+    '''Normal Vectors Related'''
+    gamma_pts_normal_product = gamma.transpose(1, 2) @ pts_normal  # B x J x 3
+    pts_normal_norm = torch.norm(gamma_pts_normal_product, dim=2)
+    mu_normal = gamma.transpose(1, 2) @ pts_normal / pts_normal_norm.unsqueeze(2)
+
+    pts_normal_unsqueeze = pts_normal.unsqueeze(2)  # B x N x 1 x 3
+    pts_normal_expand = pts_normal_unsqueeze.repeat(1, 1, J, 1)
+
+    mu_normal_unsqueeze = mu_normal.unsqueeze(1)  # B x 1 x J x 3
+    mu_normal_expand = mu_normal_unsqueeze.repeat(1, N, 1, 1)
+    # kappa:B
+    kappa = (((pts_normal_expand.unsqueeze(3) \
+               @ mu_normal_expand.unsqueeze(4)).squeeze() * gamma) \
+             .sum(dim=1)).sum(dim=1) \
+            / Npi.sum(dim=1)
+
+    return pi, mu, sigma, mu_normal, kappa
