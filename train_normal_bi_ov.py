@@ -1,6 +1,6 @@
 '''
 Copyright (c) 2024 SUD
-Author: Xinzhe Du, Zhengyan Zhang
+Author: Xinzhe Du
 '''
 
 import argparse
