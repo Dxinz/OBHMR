@@ -1,6 +1,6 @@
 '''
-Copyright (c) 2020 NVIDIA
-Author: Wentao Yuan
+Copyright (c) 2024 SUD
+Author: Xinzhe Du
 '''
 
 import numpy as np
