@@ -1,6 +1,6 @@
 '''
-Copyright (c) 2023 RPAI Lab
-Author: Zhengyan Zhang
+Copyright (c) 2024 SUD
+Author: Xinzhe Du, Zhengyan Zhang
 '''
 
 import argparse
@@ -15,7 +15,7 @@ import datetime
 
 # from data_normal import TrainData
 from data_pcd import TrainData
-from bi_model_normal_Transformer_ov import DeepHMR
+from bi_model_normal_Transformer_ov import DeepOBHMR
 
 import torch.nn as nn
 
@@ -222,7 +222,7 @@ if __name__ == "__main__":
     textio.cprint(str(args))
     
 
-    model = DeepHMR(args)
+    model = DeepOBHMR(args)
     if torch.cuda.is_available():
         model.cuda()
 
