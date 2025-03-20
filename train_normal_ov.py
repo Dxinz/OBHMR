@@ -1,6 +1,6 @@
 '''
-Copyright (c) 2020 NVIDIA
-Author: Wentao Yuan
+Copyright (c) 2024 SDU
+Author: Xinzhe Du
 '''
 
 import argparse
@@ -15,7 +15,7 @@ import datetime
 
 # from data_normal import TrainData
 from data_pcd import TrainData
-from model_normal_ov import DeepHMR
+from model_normal_ov import DeepOHMR
 from  Overlap import  data_utils
 from modelov import  OverlapNet
 import torch.nn as nn
@@ -390,7 +390,7 @@ if __name__ == "__main__":
     
 ##################################################################################################################################
 ##################################################################################################################################
-    model = DeepHMR(args)
+    model = DeepOHMR(args)
     if torch.cuda.is_available():
         model.cuda()
 
